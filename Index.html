@@ -1,119 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting...</title>
-  <script>
-    window.onload = () => {
-      // Open about:blank in the same window
-      const blank = window.open("about:blank", "_self");
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Navis Games V.I.P</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-      // Write the full website HTML into it
-      blank.document.write(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Bubbly Embed</title>
-          <style>
-            :root{
-              --green-top:#010500;
-              --green-mid:#04751a;
-              --green-deep:#032612;
-              --bg-black:#000000;
-              --box-bg: rgba(0,0,0,0.55);
-            }
-            html, body { margin:0; height:100%; font-family:system-ui,sans-serif; }
-            body {
-              display:flex;
-              flex-direction:column;
-              align-items:center;
-              justify-content:center;
-              background:
-                radial-gradient(1200px 700px at 50% 120%, rgba(255,255,255,0.04), transparent 60%),
-                linear-gradient(to bottom, var(--green-top) 0%, var(--green-mid) 40%, var(--green-deep) 70%, var(--bg-black) 100%);
-              overflow:hidden;
-            }
-            .bubbles {
-              position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
-            }
-            .bubble {
-              position:absolute; bottom:-10vh; border-radius:50%;
-              background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.15) 70%, rgba(255,255,255,0.05) 100%);
-              animation: rise var(--dur,8s) linear forwards, drift var(--dur,8s) ease-in-out forwards;
-              opacity:0;
-            }
-            @keyframes rise {0%{transform:translateY(0);opacity:0;}5%{opacity:1;}85%{opacity:1;}100%{transform:translateY(-115vh);opacity:0;}}
-            @keyframes drift {0%{transform:translateX(0);}50%{transform:translateX(var(--drift,40px));}100%{transform:translateX(calc(var(--drift,40px)*-0.3));}}
+  body { 
+    font-family: 'Arial', sans-serif; 
+    height: 100vh; 
+    background: linear-gradient(to top, #010500, #04751a); 
+    position: relative; 
+    overflow: hidden; 
+  }
 
-            .frame-wrap {
-              position:relative; z-index:1;
-              width:min(100%,1000px); aspect-ratio:16/9;
-              background:var(--box-bg); border-radius:14px; overflow:hidden;
-              backdrop-filter:blur(6px);
-              border:1px solid rgba(59,255,151,0.6);
-              box-shadow:0 0 12px rgba(59,255,151,0.6),0 0 60px rgba(59,255,151,0.25) inset,0 20px 60px rgba(0,0,0,0.5);
-            }
-            iframe {position:absolute; inset:0; width:100%; height:100%; border:none; background:#000;}
+  /* Title */
+  #title {
+    position: fixed;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 3em;
+    color: #FFD700;
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
+    z-index: 10;
+  }
 
-            .btn-container {display:flex; gap:12px; margin-top:12px; z-index:1; position:relative;}
-            .fullscreen-btn, .home-btn {
-              padding:10px 18px; font-size:16px; color:#0f0; background:#000; border:1px solid #0f0;
-              border-radius:8px; cursor:pointer; box-shadow:0 0 10px #0f0, inset 0 0 10px #0f0;
-              display:flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;
-            }
-            .fullscreen-btn:hover, .home-btn:hover { color:#000; background:#0f0; box-shadow:0 0 20px #0f0, inset 0 0 20px #000; }
-            .home-btn img {width:20px; height:20px;}
-          </style>
-        </head>
-        <body>
-          <div class="bubbles" id="bubbles"></div>
-          <div class="frame-wrap" id="frameBox">
-            <iframe id="gameFrame" src="about:blank"></iframe>
-          </div>
-          <div class="btn-container">
-            <button class="fullscreen-btn" id="fullscreenBtn">Enter Fullscreen</button>
-            <a class="home-btn" href="https://navisvip.netlify.app">
-              <img src="https://cdn-icons-png.flaticon.com/512/61/61972.png" alt="Home" /> Home
-            </a>
-          </div>
-          <script>
-            // bubbles
-            const layer = document.getElementById('bubbles');
-            function spawnBubble() {
-              const b=document.createElement('div'); b.className='bubble';
-              const size=Math.random()*26+8, left=Math.random()*100, dur=Math.random()*7+6;
-              const drift=(Math.random()*120+20)*(Math.random()<0.5?-1:1);
-              b.style.width=b.style.height=size+'px';
-              b.style.left=left+'vw';
-              b.style.setProperty('--dur', dur+'s');
-              b.style.setProperty('--drift', drift+'px');
-              b.addEventListener('animationend',()=>b.remove());
-              layer.appendChild(b);
-            }
-            for(let i=0;i<20;i++) spawnBubble();
-            setInterval(()=>{for(let i=0;i<1+Math.floor(Math.random()*3);i++) spawnBubble();},600);
+  /* Pre-access overlay */
+  #preAccess {
+    position: fixed;
+    inset: 0;
+    background: purple;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+  }
+  #preAccess.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  #preAccess input[type="password"] {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    margin-top: 20px;
+    border: none;
+    outline: none;
+  }
 
-            // fullscreen
-            const btn=document.getElementById('fullscreenBtn');
-            const iframe=document.getElementById('gameFrame');
-            const frameBox=document.getElementById('frameBox');
-            btn.addEventListener('click',()=>{
-              iframe.src="https://smashstore2212.github.io/g26/class-458";
-              if(frameBox.requestFullscreen) frameBox.requestFullscreen();
-              else if(frameBox.webkitRequestFullscreen) frameBox.webkitRequestFullscreen();
-              else if(frameBox.msRequestFullscreen) frameBox.msRequestFullscreen();
-            });
-          </script>
-        </body>
-        </html>
-      `);
-    };
-  </script>
+  /* Content blur */
+  #content {
+    filter: blur(5px);
+    transition: filter 0.5s ease;
+  }
+  #content.unblurred {
+    filter: blur(0);
+  }
+
+  /* Bubbles */
+  #bubbles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Icon grid */
+  #icon-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 120px 20px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    z-index: 2;
+  }
+  @media (max-width: 900px) {
+    #icon-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    #icon-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Icon box */
+  .icon-box {
+    border: 2px solid #fff;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    background: transparent;
+    transition: box-shadow 0.3s, border-color 0.3s;
+    box-shadow: 0 0 15px #fff;
+  }
+  .icon-box:hover {
+    box-shadow: 0 0 25px #fff, 0 0 50px #fff;
+    border-color: #0ff;
+  }
+
+  .icon-box img {
+    max-width: 120px;
+    max-height: 120px;
+    display: block;
+    margin: 0 auto 10px;
+  }
+
+  /* Neon text under icons */
+  .icon-text {
+    color: #fff;
+    font-size: 1em;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff;
+  }
+</style>
 </head>
 <body>
-  <p>Redirecting...</p>
+
+<!-- Pre-access -->
+<div id="preAccess">
+  <div style="background:#800080; padding:20px; border-radius:10px; text-align:center;">
+    <h2 style="color:#fff;">Enter Access Key</h2>
+    <input type="password" id="keyInput" placeholder="Enter key" />
+  </div>
+</div>
+
+<!-- Title -->
+<h1 id="title">Navis Games V.I.P</h1>
+
+<!-- Bubbles -->
+<div id="bubbles"></div>
+
+<!-- Content -->
+<div id="content">
+  <div id="icon-grid">
+    <!-- 2 rows x 5 icons = 10 icons -->
+    <a href="#" class="icon-box"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/a18b7922-5e11-4a5f-a697-70cd55cc0ebd/djcnbkf-756c9c9d-84b4-4630-9c18-f06bdc179869.png"/><div class="icon-text">Buckshot Roulette</div></a>
+    <a href="https://marzlib.xyz/filesgx/Bendy%20and%20the%20Ink%20Machine.html" class="icon-box"><img src="https://play-lh.googleusercontent.com/96eBM7bUrouYRKa_1k3d2inqHMNJp25BX4IeGbpHdhvOYjLjqFn4upD2wEwGPsOBh2oz"/><div class="icon-text">Bendy And the Ink Machine</div></a>
+    <a href="#" class="icon-box"><img src="https://pbs.twimg.com/profile_images/1576996548554227712/RQEf6KW1_400x400.jpg"/><div class="icon-text">Controller</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/joystick.png"/><div class="icon-text">Joystick</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/trophy.png"/><div class="icon-text">Trophy</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/star.png"/><div class="icon-text">Star</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/medal.png"/><div class="icon-text">Medal</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/arcade.png"/><div class="icon-text">Arcade</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/leaderboard.png"/><div class="icon-text">Leaderboard</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/console.png"/><div class="icon-text">Console</div></a>
+  </div>
+</div>
+
+<script>
+  const correctKey = "77185";
+  const preAccess = document.getElementById("preAccess");
+  const keyInput = document.getElementById("keyInput");
+  const content = document.getElementById("content");
+
+  keyInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      if (keyInput.value === correctKey) {
+        preAccess.classList.add("hidden");
+        setTimeout(() => preAccess.style.display = "none", 500);
+        content.classList.add("unblurred");
+      } else {
+        keyInput.value = "";
+        keyInput.style.border = "2px solid red";
+        setTimeout(() => keyInput.style.border = "none", 500);
+      }
+    }
+  });
+
+  // Bubble animation
+  const bubblesContainer = document.getElementById("bubbles");
+  function createBubble() {
+    const bubble = document.createElement("div");
+    const size = Math.random() * 10 + 10;
+    bubble.style.width = size + "px";
+    bubble.style.height = size + "px";
+    bubble.style.background = "rgba(0, 255, 255, 0.5)";
+    bubble.style.borderRadius = "50%";
+    bubble.style.position = "absolute";
+    bubble.style.bottom = "0";
+    bubble.style.left = Math.random() * 100 + "%";
+    bubble.style.opacity = Math.random();
+    bubblesContainer.appendChild(bubble);
+
+    const duration = Math.random() * 5 + 5;
+    const translateY = -(Math.random() * 300 + 100);
+    bubble.animate([
+      { transform: "translateY(0)", opacity: bubble.style.opacity },
+      { transform: `translateY(${translateY}px)`, opacity: 0 }
+    ], {
+      duration: duration * 1000,
+      easing: "linear",
+      fill: "forwards"
+    }).onfinish = () => bubble.remove();
+  }
+  setInterval(createBubble, 300);
+
+  // Disguise links to open in about:blank
+  document.querySelectorAll("a.icon-box").forEach(link => {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      const newTab = window.open("about:blank", "_blank");
+      newTab.location.href = this.href;
+    });
+  });
+</script>
 </body>
 </html>
