@@ -1,133 +1,131 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Navis Games V.I.P</title>
 <style>
-  /* Reset and base styles */
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
   }
 
-  body {
-    font-family: 'Arial', sans-serif;
-    height: 100vh;
-    background: linear-gradient(to top, #000033, #0000aa);
-    position: relative;
-    overflow: hidden;
+  body { 
+    font-family: 'Arial', sans-serif; 
+    height: 100vh; 
+    background: linear-gradient(to top, #010500, #04751a); 
+    position: relative; 
+    overflow: hidden; 
   }
 
-  /* Title styling */
+  /* Title */
   #title {
     position: fixed;
     top: 20px;
     width: 100%;
     text-align: center;
-    font-family: 'Neon', 'Arial', sans-serif;
     font-size: 3em;
-    color: #00ffff;
-    text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+    color: #FFD700;
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
     z-index: 10;
   }
 
   /* Pre-access overlay */
   #preAccess {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: purple;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 9999;
     transition: opacity 0.5s ease;
   }
-
   #preAccess.hidden {
     opacity: 0;
     pointer-events: none;
   }
-
   #preAccess input[type="password"] {
     padding: 10px 20px;
     font-size: 1.2em;
-    border: none;
     border-radius: 5px;
-    outline: none;
     margin-top: 20px;
+    border: none;
+    outline: none;
   }
 
-  /* Blurred background when unlocked */
+  /* Content blur */
   #content {
-    filter: blur(0);
+    filter: blur(5px);
     transition: filter 0.5s ease;
   }
-
-  #content.blurred {
-    filter: blur(5px);
+  #content.unblurred {
+    filter: blur(0);
   }
 
-  /* Bubbles container */
+  /* Bubbles */
   #bubbles {
     position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     pointer-events: none;
     z-index: 1;
   }
 
-  /* Icon grid container */
+  /* Icon grid */
   #icon-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
-    padding: 100px 20px 20px 20px;
+    padding: 120px 20px 40px;
     max-width: 1200px;
     margin: 0 auto;
     z-index: 2;
   }
-
-  /* Individual icon boxes */
-  .icon-box {
-    border: 2px solid #fff;
-    border-radius: 10px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: box-shadow 0.3s, border-color 0.3s;
-    background: transparent;
+  @media (max-width: 900px) {
+    #icon-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    #icon-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
+  /* Icon box */
+  .icon-box {
+    border: 2px solid #fff;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    background: transparent;
+    transition: box-shadow 0.3s, border-color 0.3s;
+    box-shadow: 0 0 15px #fff;
+  }
   .icon-box:hover {
-    box-shadow: 0 0 20px #fff;
+    box-shadow: 0 0 25px #fff, 0 0 50px #fff;
     border-color: #0ff;
   }
 
-  /* Icon images inside boxes */
   .icon-box img {
-    max-width: 50px;
-    max-height: 50px;
+    max-width: 120px;
+    max-height: 120px;
     display: block;
-    margin: 0 auto;
+    margin: 0 auto 10px;
   }
 
-  /* Neon text style (for title) */
-  @font-face {
-    font-family: 'Neon';
-    src: local('Arial'); /* fallback, or link to a neon font if available */
+  /* Neon text under icons */
+  .icon-text {
+    color: #fff;
+    font-size: 1em;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff;
   }
 </style>
 </head>
 <body>
 
-<!-- Pre-access overlay -->
+<!-- Pre-access -->
 <div id="preAccess">
   <div style="background:#800080; padding:20px; border-radius:10px; text-align:center;">
     <h2 style="color:#fff;">Enter Access Key</h2>
@@ -138,150 +136,82 @@
 <!-- Title -->
 <h1 id="title">Navis Games V.I.P</h1>
 
-<!-- Bubbles Canvas -->
+<!-- Bubbles -->
 <div id="bubbles"></div>
 
-<!-- Main content (hidden until key is correct) -->
+<!-- Content -->
 <div id="content">
-  <!-- Icon grid -->
   <div id="icon-grid">
-    <!-- 4 rows x 5 icons = total 20 icons -->
-    <!-- Example icons, replace src and links as needed -->
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/game-controller.png" alt="Icon 1" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/rocket.png" alt="Icon 2" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/controller.png" alt="Icon 3" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/joystick.png" alt="Icon 4" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/trophy.png" alt="Icon 5" />
-    </a>
-    
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/star.png" alt="Icon 6" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/medal.png" alt="Icon 7" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/arcade.png" alt="Icon 8" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/leaderboard.png" alt="Icon 9" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/console.png" alt="Icon 10" />
-    </a>
-    
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/puzzle.png" alt="Icon 11" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/multiplayer.png" alt="Icon 12" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/vr-headset.png" alt="Icon 13" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/controller.png" alt="Icon 14" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/mouse.png" alt="Icon 15" />
-    </a>
-    
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/leaderboard.png" alt="Icon 16" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/trophy.png" alt="Icon 17" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/arcade.png" alt="Icon 18" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/leaderboard.png" alt="Icon 19" />
-    </a>
-    <a href="#" class="icon-box" target="_blank">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/console.png" alt="Icon 20" />
-    </a>
+    <!-- 2 rows x 5 icons = 10 icons -->
+    <a href="#" class="icon-box"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/a18b7922-5e11-4a5f-a697-70cd55cc0ebd/djcnbkf-756c9c9d-84b4-4630-9c18-f06bdc179869.png"/><div class="icon-text">Buckshot Roulette</div></a>
+    <a href="https://marzlib.xyz/filesgx/Bendy%20and%20the%20Ink%20Machine.html" class="icon-box"><img src="https://play-lh.googleusercontent.com/96eBM7bUrouYRKa_1k3d2inqHMNJp25BX4IeGbpHdhvOYjLjqFn4upD2wEwGPsOBh2oz"/><div class="icon-text">Bendy And the Ink Machine</div></a>
+    <a href="#" class="icon-box"><img src="https://pbs.twimg.com/profile_images/1576996548554227712/RQEf6KW1_400x400.jpg"/><div class="icon-text">Controller</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/joystick.png"/><div class="icon-text">Joystick</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/trophy.png"/><div class="icon-text">Trophy</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/star.png"/><div class="icon-text">Star</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/medal.png"/><div class="icon-text">Medal</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/arcade.png"/><div class="icon-text">Arcade</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/leaderboard.png"/><div class="icon-text">Leaderboard</div></a>
+    <a href="#" class="icon-box"><img src="https://img.icons8.com/ios-filled/50/ffffff/console.png"/><div class="icon-text">Console</div></a>
   </div>
 </div>
 
 <script>
-  // Password access logic
   const correctKey = "77185";
-  const preAccess = document.getElementById('preAccess');
-  const keyInput = document.getElementById('keyInput');
-  const content = document.getElementById('content');
+  const preAccess = document.getElementById("preAccess");
+  const keyInput = document.getElementById("keyInput");
+  const content = document.getElementById("content");
 
-  keyInput.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
+  keyInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
       if (keyInput.value === correctKey) {
-        // Unlock the site
-        preAccess.classList.add('hidden');
-        setTimeout(() => {
-          preAccess.style.display = 'none';
-        }, 500);
-        // Remove blur
-        document.getElementById('content').classList.remove('blurred');
+        preAccess.classList.add("hidden");
+        setTimeout(() => preAccess.style.display = "none", 500);
+        content.classList.add("unblurred");
       } else {
-        alert('Incorrect key. Try again.');
-        keyInput.value = '';
+        keyInput.value = "";
+        keyInput.style.border = "2px solid red";
+        setTimeout(() => keyInput.style.border = "none", 500);
       }
     }
   });
 
-  // Bubbles animation
-  const bubblesContainer = document.getElementById('bubbles');
-
+  // Bubble animation
+  const bubblesContainer = document.getElementById("bubbles");
   function createBubble() {
-    const bubble = document.createElement('div');
-    const size = Math.random() * 10 + 10; // size between 10-20px
-    bubble.style.width = size + 'px';
-    bubble.style.height = size + 'px';
-    bubble.style.background = 'rgba(0, 255, 255, 0.5)';
-    bubble.style.borderRadius = '50%';
-    bubble.style.position = 'absolute';
-    bubble.style.bottom = '0px';
-    bubble.style.left = Math.random() * 100 + '%';
+    const bubble = document.createElement("div");
+    const size = Math.random() * 10 + 10;
+    bubble.style.width = size + "px";
+    bubble.style.height = size + "px";
+    bubble.style.background = "rgba(0, 255, 255, 0.5)";
+    bubble.style.borderRadius = "50%";
+    bubble.style.position = "absolute";
+    bubble.style.bottom = "0";
+    bubble.style.left = Math.random() * 100 + "%";
     bubble.style.opacity = Math.random();
-    bubble.style.transform = 'translateY(0)';
-    bubble.style.zIndex = 0;
     bubblesContainer.appendChild(bubble);
 
-    // Animate bubble
-    const duration = Math.random() * 5 + 5; // seconds
-    const translateY = - (Math.random() * 300 + 100); // pixels
+    const duration = Math.random() * 5 + 5;
+    const translateY = -(Math.random() * 300 + 100);
     bubble.animate([
-      { transform: 'translateY(0)', opacity: bubble.style.opacity },
+      { transform: "translateY(0)", opacity: bubble.style.opacity },
       { transform: `translateY(${translateY}px)`, opacity: 0 }
     ], {
       duration: duration * 1000,
-      easing: 'linear',
-      fill: 'forwards'
-    }).onfinish = () => {
-      bubble.remove();
-    };
+      easing: "linear",
+      fill: "forwards"
+    }).onfinish = () => bubble.remove();
   }
-
-  // Generate bubbles continuously
   setInterval(createBubble, 300);
 
-  // Optional: unlock the site visually
-  // Initially, content is not blurred; blur when preAccess appears
-  // Since you requested "around untouchable and blurred," we can add blur
-  document.getElementById('content').classList.add('blurred');
-
+  // Disguise links to open in about:blank
+  document.querySelectorAll("a.icon-box").forEach(link => {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      const newTab = window.open("about:blank", "_blank");
+      newTab.location.href = this.href;
+    });
+  });
 </script>
 </body>
 </html>
-
-
-
-
